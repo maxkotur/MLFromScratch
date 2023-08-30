@@ -22,5 +22,5 @@ class KNN:
         distances = [euclidean_distance(x, x_train) for x_train in self.X_train]
         k_indices = np.argsort(distances)[:self.k]
         k_nearest = [self.y_train[i] for i in k_indices]
-        most_common = Counter(k_nearest).most_common(1)
-        return most_common
+        most_common = Counter(k_nearest).most_common(1) # this gets first most common and number of occurences
+        return most_common[0][0]
