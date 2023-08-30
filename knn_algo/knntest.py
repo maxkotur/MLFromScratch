@@ -16,9 +16,9 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 # plt.scatter(X[:, 2], X[:, 3], c=y, s=20, edgecolor='k')
 # plt.show()
 
-clf = KNN(k=3)
+clf = KNN(k=5)
 clf.fit(X_train, y_train)
 predictions = clf.predict(X_test)
 
-accuracy = np.sum(predictions== y_test) / len(y_test)
-print(accuracy)
+accuracy = np.sum(predictions == y_test) / len(y_test)
+print(accuracy) # accuracy
