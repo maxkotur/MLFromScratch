@@ -8,9 +8,9 @@ class NaiveBayes:
         n_classes = len(self.classes)
         
         # inital mean, var, priors
-        self.mean = np.zeroes((n_classes, n_features), dtype=np.float64)
-        self.var = np.zeroes((n_classes, n_features), dtype=np.float64)
-        self.priors = np.zeroes(n_classes, dtype=np.float64)
+        self.mean = np.zeros((n_classes, n_features), dtype=np.float64)
+        self.var = np.zeros((n_classes, n_features), dtype=np.float64)
+        self.priors = np.zeros(n_classes, dtype=np.float64)
         
         for c in self.classes:
             X_c = X[c==y]
@@ -21,6 +21,7 @@ class NaiveBayes:
     
     def predict(self, X):
         y_hat = [self._predict(x) for x in X]
+        return y_hat
         
     def _predict(self, x):
         posts = []
