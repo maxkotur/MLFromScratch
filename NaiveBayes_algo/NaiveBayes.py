@@ -20,4 +20,23 @@ class NaiveBayes:
         
     
     def predict(self, X):
+        y_hat = [self._predict(x) for x in X]
         
+    def _predict(self, x):
+        posts = []
+        
+        for index, c in enumerate(self.classes):
+            prior = np.log(self.priors[index])
+            class_pdf = np.sum(np.log(self.pdf(index, x)))
+            post = prior + class_pdf
+            posts.append(post)
+        
+        return self.classes[np.argmax(posts)]
+            
+    
+    def pdf(self, class_index, x):
+        mean = self.mean[class_index]
+        var = self.var[class_index]
+        num = np.exp(- (x-mean)**2 / (2 *var))
+        dem = np.sqrt(2 * np.pi * var)
+        return num / dem
