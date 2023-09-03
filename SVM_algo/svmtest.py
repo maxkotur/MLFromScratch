@@ -3,15 +3,16 @@ from sklearn import datasets
 import matplotlib.pyplot as plt
 from svm import SVM
 
-X, y = datasets.make_blobs(n_samples=1000, n_features=2, centers=2, cluster_std=1.05, random_state=4)
+X, y = datasets.make_blobs(n_samples=1000, n_features=2, centers=2, cluster_std=1.05, random_state=42)
 y = np.where(y == 0, -1, 1)
 
 clf = SVM()
 clf.fit(X, y)
 
+
 def visualize_svm():
-    def get_hyperplane_value(x, w, b, offset):
-        return (-w[0] * x + b + offset) / w[1]
+    def get_hyperplane_value(x, weights, bias, offset):
+        return (-weights[0] * x + bias + offset) / weights[1]
     
     fig = plt.figure()
     ax = fig.add_subplot(1, 1, 1)
@@ -20,14 +21,14 @@ def visualize_svm():
     x0_1 = np.amin(X[:, 0])
     x0_2 = np.amax(X[:, 0])
 
-    x1_1 = get_hyperplane_value(x0_1, clf.w, clf.b, 0)
-    x1_2 = get_hyperplane_value(x0_2, clf.w, clf.b, 0)
+    x1_1 = get_hyperplane_value(x0_1, clf.weights, clf.bias, 0)
+    x1_2 = get_hyperplane_value(x0_2, clf.weights, clf.bias, 0)
 
-    x1_1_m = get_hyperplane_value(x0_1, clf.w, clf.b, -1)
-    x1_2_m = get_hyperplane_value(x0_2, clf.w, clf.b, -1)
+    x1_1_m = get_hyperplane_value(x0_1, clf.weights, clf.bias, -1)
+    x1_2_m = get_hyperplane_value(x0_2, clf.weights, clf.bias, -1)
 
-    x1_1_p = get_hyperplane_value(x0_1, clf.w, clf.b, 1)
-    x1_2_p = get_hyperplane_value(x0_2, clf.w, clf.b, 1)
+    x1_1_p = get_hyperplane_value(x0_1, clf.weights, clf.bias, 1)
+    x1_2_p = get_hyperplane_value(x0_2, clf.weights, clf.bias, 1)
 
     ax.plot([x0_1, x0_2], [x1_1, x1_2], "y--")
     ax.plot([x0_1, x0_2], [x1_1_m, x1_2_m], "k")
@@ -39,4 +40,4 @@ def visualize_svm():
 
     plt.show()
 
-    visualize_svm()
+visualize_svm()
