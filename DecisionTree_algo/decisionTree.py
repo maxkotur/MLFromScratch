@@ -98,7 +98,7 @@ class DecisionTree:
         # weighted average child entropy
         n = len(y)
         n_l, n_r = len(left_idxs), len(right_idxs)
-        e_l, e_r = entropy(y[left_idxs]), entropy(right_idxs[y])
+        e_l, e_r = entropy(y[left_idxs]), entropy(y[right_idxs])
         child_entropy = (n_l/n) * e_l + (n_r/n) *e_r
         
         # return information_gain
@@ -124,7 +124,7 @@ class DecisionTree:
         if node.is_leafNode():
             return node.value
         
-        if x[node.feat_idx] <= node.threshold:
+        if x[node.feature] <= node.threshold:
             return self.traverse_tree(x, node.left)
         else:
             return self.traverse_tree(x, node.right)
