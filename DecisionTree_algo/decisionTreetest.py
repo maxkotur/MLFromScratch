@@ -63,6 +63,11 @@ class DecisionTree:
         
         # greedy search
         best_feat, best_thresh = self.best_criteria(X, y, feat_idxs)
+        left_idxs, right_idxs = self.split(X[:, best_feat], best_thresh)
+        left = self.grow_tree(X[left_idxs, :], y[left_idxs], depth+1)
+        right = self.grow_tree(X[right_idxs, :], y[right_idxs], depth+1)
+        
+        return Node(best_feat, best_thresh, left, right)
         
     
     def best_criteria(self, X, y, feat_idxs):
@@ -84,11 +89,21 @@ class DecisionTree:
     def information_gain(self, y, X_column, split_thresh):
         # parent entropy
         parent_entropy = entropy(y)
+        
         # generate split
         left_idxs, right_idxs = self.split(X_column, split_thresh)
+        if len(left_idxs) == 0 or len(right_idxs) == 0:
+            return 0
+        
         # weighted average child entropy
+        n = len(y)
+        n_l, n_r = len(left_idxs), len(right_idxs)
+        e_l, e_r = entropy(y[left_idxs]), entropy(right_idxs[y])
+        child_entropy = (n_l/n) * e_l + (n_r/n) *e_r
         
         # return information_gain
+        information_gain = parent_entropy - child_entropy
+        return information_gain
     
     def split(self, X_column, split_thresh):
         left_idxs = np.argwhere(X_column <= split_thresh).flatten()
