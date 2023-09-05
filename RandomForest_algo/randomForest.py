@@ -1,5 +1,4 @@
 import numpy as np
-import DecisionTree_algo
 from DecisionTree_algo import decisionTree as dt
 
 def boostrap_sample(X, y):
@@ -20,11 +19,22 @@ class RandomForset:
     def fit(self, X, y):
         self.trees = []
         for _ in range(self.n_trees):
-            tree = dt.DecisionTree(min_samples_split=self.min_samples_split)
-                   
-        
+            tree = dt.DecisionTree(min_samples_split=self.min_samples_split, 
+                                   max_depth=self.max_depth, n_features=self.n_features)
+            X_sample, y_sample = boostrap_sample(X, y)
+            tree.fit(X_sample, y_sample)
+            self.n_trees.append(tree)
+            
     
     def predict(self, X):
-        pass
+        tree_preds = np.arrayu([tree.predict(X) for tree in self.trees])
+        # switch to majority vote => [1111 0000 1111] -> [101 101 101 101]
+        tree_preds = np.swapaxes(tree_preds, 0, 1)
+        # majority vote
+        y_hat = [dt.DecisionTree.most_common_label(tree_pred) for tree_pred in tree_preds]
+        return np.array(y_hat)
+        
+    
+        
         
 
