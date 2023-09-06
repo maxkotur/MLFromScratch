@@ -14,7 +14,7 @@ class KMeans:
     
     def __init__(self, K=5, iter=100, plot_steps=False):
         self.K = K
-        self.iter = iter,
+        self.iter = iter
         self.plot_steps = plot_steps
         
         # list of sample indices for each cluster
