@@ -15,7 +15,7 @@ class PCA:
         self.mean = None
         
     
-    def fit(self, X, y):
+    def fit(self, X):
         # mean and covariance
         self.mean = np.mean(X, axis=0)
         X = X - self.mean    
