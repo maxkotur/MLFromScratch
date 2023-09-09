@@ -45,4 +45,4 @@ class LDA:
         
     
     def transform(self, X):
-        pass
+        return np.dot(X, self.linear_discriminants.T)
